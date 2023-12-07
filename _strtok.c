@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-char **split_string(char *str, int num)
+char **split_string(char *str, int *num)
 {
 	char **arr, *dup, *piece;
 	int i;
@@ -14,27 +14,28 @@ char **split_string(char *str, int num)
 	piece = strtok(dup, " ");
 	while (piece != NULL)
 	{
-		if (*piece == '\n')
+		if ((*piece) == '\n')
 		{
 			piece = strtok(NULL, " ");
 			continue;
 		}
-		num++;
+		(*num)++;
 		piece = strtok(NULL, " ");
 	}
 
-	arr = malloc(sizeof(char *) * num);
+	arr = malloc(sizeof(char *) * (*num));
 	piece = strtok(str, " ");
 	i = 0;
 	while (piece != NULL)
 	{
-		if (*piece == '\n')
+		if ((*piece) == '\n')
 		{
 			piece = strtok(NULL, " ");
 			continue;
 		}
 		arr[i] = malloc(sizeof(char) * (strlen(piece) + 1));
 		strcpy(arr[i], piece);
+		i++;
 		piece = strtok(NULL, " ");
 	}
 
@@ -46,9 +47,9 @@ char **split_string(char *str, int num)
 
 int main(void)
 {
-	char *str = "Test string";
+	char str[] = "Test string";
 	int i, num = 0;
-	char **result = split_string(str, num);
+	char **result = split_string(str, &num);
 
 	for (i = 0; i < num; i++)
 	{
